@@ -53,7 +53,6 @@
   <Project Path="Unity.VisualScripting.SettingsProvider.Editor.csproj" />
   <Project Path="UnityEditor.UI.Analytics.csproj" />
   <Project Path="Unity.PathTracing.Runtime.csproj" />
-  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Unity.PathTracing.Editor.csproj" />
   <Project Path="Unity.ProBuilder.AssetIdRemapUtility.csproj" />
   <Project Path="Assembly-CSharp.csproj" />

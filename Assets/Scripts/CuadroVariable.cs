@@ -4,7 +4,12 @@ public class CuadroVariable : MonoBehaviour
 {
     [SerializeField] private Transform[] posicionesPorVuelta;
 
-    private int ultimaVueltaProcesada = -1;
+    private int ultimaVueltaProcesada = 0;
+
+    void Start()
+    {
+        ultimaVueltaProcesada = ContadorVueltas.Instancia.VueltaActual;
+    }
 
     void Update()
     {
