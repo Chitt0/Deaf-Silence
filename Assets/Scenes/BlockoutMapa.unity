@@ -34411,6 +34411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControladorFade
   grupoFade: {fileID: 2097408228}
   duracionFade: 1.5
+  duracionFadeInicial: 1
 --- !u!43 &2132225665
 Mesh:
   m_ObjectHideFlags: 0
