@@ -16,6 +16,10 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private float minAlpha = 0.2f;
     [SerializeField] private float maxAlpha = 1.0f;
 
+    [Header("Audio del clic")]
+    [Tooltip("Arrastra aquí el objeto que tiene el AudioSource con el sonido. Si lo dejas vacío, busca uno en este mismo objeto.")]
+    [SerializeField] private AudioSource audioSource;
+
     [Header("Preguntas SÍ / NO")]
     [SerializeField] private GameObject panelPreguntas;
     [SerializeField] private TextMeshProUGUI textoPregunta;
@@ -40,18 +44,24 @@ public class MainMenuController : MonoBehaviour
     [Header("Escena del juego")]
     [SerializeField] private string gameSceneName = "BlockoutMapa";
 
-    private AudioSource audioSource;
     private bool clickInicialHecho = false;
     private bool terminado = false;
+    private bool puedeResponder = false;
     private int indicePregunta = 0;
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        // Si no arrastraste el AudioSource, intenta buscarlo en este mismo objeto
+        if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+        // Por si una partida anterior dejó el volumen global en 0
+        AudioListener.volume = 1f;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
+        // La imagen de fade no debe bloquear los clics de los botones
+        if (fadeImage != null) fadeImage.raycastTarget = false;
         SetFadeAlpha(0f);
 
         if (panelPreguntas != null) panelPreguntas.SetActive(false);
@@ -86,17 +96,41 @@ public class MainMenuController : MonoBehaviour
     {
         clickInicialHecho = true;
 
-        if (audioSource != null && audioSource.clip != null)
+        // 1) Sonido
+        if (audioSource == null)
+        {
+            Debug.LogWarning("MainMenuController: no hay AudioSource asignado, no sonará el efecto del clic.");
+        }
+        else if (audioSource.clip == null)
+        {
+            Debug.LogWarning("MainMenuController: el AudioSource no tiene AudioClip asignado.");
+        }
+        else
         {
             audioSource.Play();
         }
 
+        // 2) Fade a negro -> las preguntas aparecen sobre el negro
+        StartCoroutine(TransicionAPreguntas());
+    }
+
+    IEnumerator TransicionAPreguntas()
+    {
+        // Oscurece la pantalla y la deja en negro
+        yield return Fade(0f, 1f, fadeDuration);
+
+        // Con la pantalla en negro, cambiamos la UI sin que se note
         if (clickTextComponent != null) clickTextComponent.gameObject.SetActive(false);
         if (titleUI != null) titleUI.SetActive(false);
 
+        yield return new WaitForSecondsRealtime(blackPauseDuration);
+
+        // Las preguntas aparecen sobre el fondo negro (el fade NO se quita)
         indicePregunta = 0;
         panelPreguntas.SetActive(true);
         MostrarPregunta();
+
+        puedeResponder = true;
     }
 
     void MostrarPregunta()
@@ -106,7 +140,7 @@ public class MainMenuController : MonoBehaviour
 
     void Responder(bool respuestaSi)
     {
-        if (terminado) return;
+        if (terminado || !puedeResponder) return;
 
         bool esUltima = indicePregunta == preguntas.Length - 1;
 
@@ -119,7 +153,7 @@ public class MainMenuController : MonoBehaviour
 
             terminado = true;
             panelPreguntas.SetActive(false);
-            StartCoroutine(FadeAndStartGame());
+            StartCoroutine(CargarJuego());
         }
         else
         {
@@ -128,20 +162,26 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-    IEnumerator FadeAndStartGame()
+    IEnumerator CargarJuego()
     {
-        float timer = 0f;
-        while (timer < fadeDuration)
-        {
-            timer += Time.deltaTime;
-            SetFadeAlpha(Mathf.Lerp(0f, 1f, timer / fadeDuration));
-            yield return null;
-        }
+        // La pantalla ya está en negro desde antes; solo una pausa breve y cargamos
         SetFadeAlpha(1f);
-
-        yield return new WaitForSeconds(blackPauseDuration);
+        yield return new WaitForSecondsRealtime(blackPauseDuration);
 
         SceneManager.LoadScene(gameSceneName);
+    }
+
+    // Una sola corrutina de fade
+    IEnumerator Fade(float desde, float hasta, float duracion)
+    {
+        float timer = 0f;
+        while (timer < duracion)
+        {
+            timer += Time.unscaledDeltaTime;
+            SetFadeAlpha(Mathf.Lerp(desde, hasta, timer / duracion));
+            yield return null;
+        }
+        SetFadeAlpha(hasta);
     }
 
     void SetFadeAlpha(float alpha)
