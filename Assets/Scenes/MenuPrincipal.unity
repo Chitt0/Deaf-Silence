@@ -387,6 +387,7 @@ MonoBehaviour:
   m_UnmodifiedMeshVersion: 21
   m_Size: {x: 5, y: 1, z: 5}
   m_LocalCenter: {x: 0, y: 0, z: 0}
+  m_PivotRatio: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -2529,6 +2530,7 @@ MonoBehaviour:
   m_UnmodifiedMeshVersion: 23
   m_Size: {x: 1, y: 1, z: 1}
   m_LocalCenter: {x: 0, y: 0, z: 0}
+  m_PivotRatio: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -3019,6 +3021,7 @@ MonoBehaviour:
   m_UnmodifiedMeshVersion: 23
   m_Size: {x: 1, y: 1, z: 1}
   m_LocalCenter: {x: 0, y: 0, z: 0}
+  m_PivotRatio: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -3391,7 +3394,7 @@ MonoBehaviour:
   - "\xBFLe tienes miedo a la oscuridad?"
   - "\xBFAlguna vez te has sentido observado?"
   - "\xBFCrees en los fantasmas?"
-  - "\xBFEres sordo/a?"
+  - "\xBFTienes dificultades auditivas?"
   siDesactivaAudio: 1
   fadeImage: {fileID: 1094775913}
   fadeDuration: 3
@@ -4551,6 +4554,7 @@ MonoBehaviour:
   m_UnmodifiedMeshVersion: 23
   m_Size: {x: 1, y: 1, z: 1}
   m_LocalCenter: {x: 0, y: 0, z: 0}
+  m_PivotRatio: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -5222,6 +5226,7 @@ MonoBehaviour:
   m_UnmodifiedMeshVersion: 23
   m_Size: {x: 1, y: 1, z: 1}
   m_LocalCenter: {x: 0, y: 0, z: 0}
+  m_PivotRatio: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:
@@ -6246,6 +6251,7 @@ MonoBehaviour:
   m_UnmodifiedMeshVersion: 23
   m_Size: {x: 1, y: 1, z: 1}
   m_LocalCenter: {x: 0, y: 0, z: 0}
+  m_PivotRatio: {x: 0, y: 0, z: 0}
   references:
     version: 2
     RefIds:

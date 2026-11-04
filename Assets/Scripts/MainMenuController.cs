@@ -31,7 +31,7 @@ public class MainMenuController : MonoBehaviour
         "¿Le tienes miedo a la oscuridad?",
         "¿Alguna vez te has sentido observado?",
         "¿Crees en los fantasmas?",
-        "¿Eres sordo/a?"
+        "¿Tienes dificultades auditivas?"
     };
     [Tooltip("Si está marcado, responder SÍ a la última pregunta desactiva el audio. Desmárcalo si la redactas como '¿Quieres jugar con sonido?'")]
     [SerializeField] private bool siDesactivaAudio = true;
@@ -135,7 +135,12 @@ public class MainMenuController : MonoBehaviour
 
     void MostrarPregunta()
     {
-        textoPregunta.text = preguntas[indicePregunta];
+        if (textoPregunta != null && preguntas.Length > indicePregunta)
+        {
+            // Asignamos el texto y forzamos a TextMeshPro a actualizarlo
+            textoPregunta.text = preguntas[indicePregunta];
+            textoPregunta.SetAllDirty();
+        }
     }
 
     void Responder(bool respuestaSi)
